@@ -192,7 +192,6 @@ export class PassKeyAuthService extends AbstractAuthModuleProvider {
           entity_id: email,
         },
       });
-      console.log("providerIdentity", providerIdentity);
 
       if (providerIdentity && providerIdentity.length > 0) {
         const createAuthIdentityResponse = await this.createAuthIdentity(
@@ -202,7 +201,6 @@ export class PassKeyAuthService extends AbstractAuthModuleProvider {
           undefined,
           providerIdentity[0]
         );
-        console.log("createAuthIdentityResponse", createAuthIdentityResponse);
 
         return createAuthIdentityResponse;
       } else {
@@ -215,10 +213,6 @@ export class PassKeyAuthService extends AbstractAuthModuleProvider {
           this.config_,
           authIdentity,
           undefined
-        );
-        console.log(
-          "createAuthIdentityResponse else",
-          createAuthIdentityResponse
         );
 
         return createAuthIdentityResponse;

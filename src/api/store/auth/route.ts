@@ -17,8 +17,6 @@ interface RequestBody {
 }
 
 export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
-  console.log("hello");
-
   const { phone, email } = req.body as RequestBody;
 
   if (!phone && !email) {
@@ -41,7 +39,6 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
     },
   });
   if (phone) {
-    console.log(`OTP for ${phone} is ${otp}`);
     const data = auth.filter(
       (e: any) =>
         e.user_metadata["email"] ==
@@ -68,7 +65,6 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
     });
     // otpNotification = await sendOtpToPhone(phone, encryptedOtp);
   } else if (email) {
-    console.log(`OTP for ${email} is ${otp}`);
     const data = auth.filter((e: any) => e.user_metadata["email"] == email);
     if (data.length != 0) {
       return res

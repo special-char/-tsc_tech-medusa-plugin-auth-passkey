@@ -36,29 +36,117 @@
 
 This starter is compatible with versions >= 2.4.0 of `@medusajs/medusa`. 
 
-## Getting Started
+## medusa-plugin-auth-passkey
 
-Visit the [Quickstart Guide](https://docs.medusajs.com/learn/installation) to set up a server.
+This plugin allows users to register through email and mobile number using OTP. After registration, users are prompted to add a passkey. For already registered users, the generated passkey can be used to log in. If a user does not add a passkey during registration, they can add it later from the account section.
 
-Visit the [Plugins documentation](https://docs.medusajs.com/learn/fundamentals/plugins) to learn more about plugins and how to create them.
 
-Visit the [Docs](https://docs.medusajs.com/learn/installation#get-started) to learn more about our system requirements.
+## Usage
 
-## What is Medusa
+1. **Registration**:
+   - Users can register using their email or mobile number.
+   - An OTP will be sent to the provided email or mobile number for verification.
+   - After successful verification, users will be prompted to add a passkey.
 
-Medusa is a set of commerce modules and tools that allow you to build rich, reliable, and performant commerce applications without reinventing core commerce logic. The modules can be customized and used to build advanced ecommerce stores, marketplaces, or any product that needs foundational commerce primitives. All modules are open-source and freely available on npm.
+2. **Login**:
+   - Registered users can log in using their email/mobile number and the generated passkey.
+   - If a user did not add a passkey during registration, they can add it later from their account section.
 
-Learn more about [Medusa’s architecture](https://docs.medusajs.com/learn/introduction/architecture) and [commerce modules](https://docs.medusajs.com/learn/fundamentals/modules/commerce-modules) in the Docs.
+3. **Adding Passkey**:
+   - Users can navigate to the account section to add or update their passkey at any time.
+   
+   
+
+
+## Installation
+
+To install the `medusa-plugin-auth-passkey`, run the following command:
+
+```
+npm install @tsc_tech/medusa-plugin-auth-passkey
+```
+or
+```
+yarn add @tsc_tech/medusa-plugin-auth-passkey
+```
+
+Additionally, install the smtp package:
+
+
+```
+npm install @simplewebauthn/server -D
+npm install @simplewebauthn/types -D
+```
+or
+
+```
+yarn add @simplewebauthn/server -D
+yarn add @simplewebauthn/types
+```
+
+## Configuration
+
+Step 1: Update Medusa Configuration Modify your medusa-config.ts to include the smtp provider:
+
+```
+import EmailPassAuthProvider from "@medusajs/medusa/auth-emailpass";
+
+
+module.exports = defineConfig({
+modules: [
+  ...
+    {
+      resolve: "@medusajs/medusa/auth",
+      options: {
+        providers: [
+          {
+            resolve: EmailPassAuthProvider,
+            id: "emailpass",
+          },
+          {
+            resolve:
+              "@tsc_tech/medusa-plugin-auth-passkey/providers/auth-passkey",
+            id: "auth-passkey",
+            options: {
+              rpID: process.env.RP_ID,
+              rpName: process.env.RP_NAME,
+              enableHTTPS: process.env.ENABLE_HTTPS === "true" ? true : false,
+            },
+          },
+          {
+            resolve: "@tsc_tech/medusa-plugin-auth-passkey/providers/auth",
+            id: "otp",
+          },
+        ],
+      },
+    },
+  ...],
+  plugins: [
+    {
+      resolve: "@tsc_tech/medusa-plugin-auth-passkey",
+      options: {},
+    },
+    ],
+})
+```
+
+
+Step 2. Set Up Environment Variables In your .env file, define the following variables:
+
+```
+RP_ID=localhost
+RP_NAME=your-rp-name
+FRONTEND_URL=http://localhost:3000
+```
+
+
+Step 3: See the example to integrate with frontend (Medusa Starter Template).
+
+link of the video
+
 
 ## Community & Contributions
 
 The community and core team are available in [GitHub Discussions](https://github.com/medusajs/medusa/discussions), where you can ask for support, discuss roadmap, and share ideas.
 
 Join our [Discord server](https://discord.com/invite/medusajs) to meet other community members.
-
-## Other channels
-
-- [GitHub Issues](https://github.com/medusajs/medusa/issues)
-- [Twitter](https://twitter.com/medusajs)
-- [LinkedIn](https://www.linkedin.com/company/medusajs)
-- [Medusa Blog](https://medusajs.com/blog/)

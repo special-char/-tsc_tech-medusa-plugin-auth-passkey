@@ -1,0 +1,15 @@
+.navLinks {
+  @apply flex gap-8 items-center justify-center max-md:hidden pb-4;
+  & > .link {
+    @apply relative text-caption1 text-black uppercase;
+
+    &::before {
+      content: "";
+      @apply absolute h-[2px] w-0 left-0 bottom-0 bg-black duration-300;
+    }
+
+    &:hover::before {
+      @apply w-full;
+    }
+  }
+}

@@ -47,7 +47,6 @@ export async function GET(
     rpID: process.env.RP_ID!,
   };
   const options = await generateAuthenticationOptions(opts);
-  console.log("options", options);
 
   req.session.currentChallenge = options.challenge;
 
