@@ -36,7 +36,7 @@
 
 This starter is compatible with versions >= 2.4.0 of `@medusajs/medusa`. 
 
-## medusa-plugin-auth-passkey
+## @tsc_tech/medusa-plugin-auth-passkey
 
 This plugin allows users to register through email and mobile number using OTP. After registration, users are prompted to add a passkey. For already registered users, the generated passkey can be used to log in. If a user does not add a passkey during registration, they can add it later from the account section.
 
@@ -60,7 +60,7 @@ This plugin allows users to register through email and mobile number using OTP. 
 
 ## Installation
 
-To install the `medusa-plugin-auth-passkey`, run the following command:
+To install the `@tsc_tech/medusa-plugin-auth-passkey`, run the following command:
 
 ```
 npm install @tsc_tech/medusa-plugin-auth-passkey
@@ -82,6 +82,12 @@ or
 ```
 yarn add @simplewebauthn/server -D
 yarn add @simplewebauthn/types
+```
+
+Run migrations after installation
+
+```
+npx medusa db:migrate
 ```
 
 ## Configuration
@@ -140,9 +146,7 @@ FRONTEND_URL=http://localhost:3000
 ```
 
 
-Step 3: See the example to integrate with frontend (Medusa Starter Template).
-
-link of the video
+Step 3: See the example (auth-passkey-storefront-example) to integrate with frontend (Medusa Starter Template).
 
 
 ## Community & Contributions
