@@ -63,7 +63,7 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
       otp: encryptedOtp,
       expires_at: Date.now() + 5 * 60 * 1000,
     });
-    // otpNotification = await sendOtpToPhone(phone, encryptedOtp);
+    otpNotification = await sendOtpToPhone(phone, encryptedOtp);
   } else if (email) {
     const data = auth.filter((e: any) => e.user_metadata["email"] == email);
     if (data.length != 0) {
@@ -78,38 +78,10 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
       expires_at: Date.now() + 5 * 60 * 1000,
     });
 
-    // otpNotification = await sendOtpToEmail(email, encryptedOtp);
+    otpNotification = await sendOtpToEmail(email, encryptedOtp);
   }
   res.status(200).json({ message: "OTP sent successfully." });
 };
-
-// export const GET = async (
-//   req: AuthenticatedMedusaRequest,
-//   res: MedusaResponse
-// ) => {
-//   // const auth_identity_id = req.auth_context.auth_identity_id;
-//   const auth_identity_id = req.query.authidentity;
-//   const query = req.scope.resolve("query");
-//   const { data: providerIdentity } = await query.graph<any>({
-//     entity: "provider_identity",
-//     fields: ["*", "auth_identity.*"],
-//     filters: {
-//       auth_identity: {
-//         id: auth_identity_id,
-//       },
-//     },
-//   });
-
-//   if (
-//     providerIdentity &&
-//     providerIdentity.length > 0 &&
-//     providerIdentity[0].auth_identity_id === auth_identity_id
-//   ) {
-//     return res.send(providerIdentity[0]);
-//   }
-
-//   return res.status(404).json({ error: "Provider identity not found." });
-// };
 
 export const GET = (req: MedusaRequest, res: MedusaResponse) => {
   res.json({
