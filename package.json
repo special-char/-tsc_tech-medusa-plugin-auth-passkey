@@ -1,6 +1,6 @@
 {
   "name": "@tsc_tech/medusa-plugin-auth-passkey",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A starter for Medusa plugins.",
   "author": "Medusa (https://medusajs.com)",
   "license": "MIT",
