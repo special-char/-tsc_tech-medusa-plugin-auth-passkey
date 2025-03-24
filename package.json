@@ -20,8 +20,18 @@
     "plugin",
     "medusa-plugin-other",
     "medusa-plugin",
-    "medusa-v2"
+    "medusa-v2",
+    "medusa-auth",
+    "medusa-plugin-auth",
+    "auth",
+    "passkey",
+    "auth-passkey",
+    "medusa-auth-passkey"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/special-char/-tsc_tech-medusa-plugin-auth-passkey"
+  },
   "scripts": {
     "build": "medusa plugin:build",
     "dev": "medusa plugin:develop",
