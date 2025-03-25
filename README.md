@@ -8,13 +8,9 @@
   </a>
 </p>
 <h1 align="center">
-  Medusa Plugin Starter
+  Medusa Plugin
 </h1>
 
-<h4 align="center">
-  <a href="https://docs.medusajs.com">Documentation</a> |
-  <a href="https://www.medusajs.com">Website</a>
-</h4>
 
 <p align="center">
   Building blocks for digital commerce
@@ -22,13 +18,6 @@
 <p align="center">
   <a href="https://github.com/medusajs/medusa/blob/master/CONTRIBUTING.md">
     <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat" alt="PRs welcome!" />
-  </a>
-    <a href="https://www.producthunt.com/posts/medusa"><img src="https://img.shields.io/badge/Product%20Hunt-%231%20Product%20of%20the%20Day-%23DA552E" alt="Product Hunt"></a>
-  <a href="https://discord.gg/xpCwq3Kfn8">
-    <img src="https://img.shields.io/badge/chat-on%20discord-7289DA.svg" alt="Discord Chat" />
-  </a>
-  <a href="https://twitter.com/intent/follow?screen_name=medusajs">
-    <img src="https://img.shields.io/twitter/follow/medusajs.svg?label=Follow%20@medusajs" alt="Follow @medusajs" />
   </a>
 </p>
 
@@ -142,15 +131,37 @@ Step 2. Set Up Environment Variables In your .env file, define the following var
 ```
 RP_ID=localhost
 RP_NAME=your-rp-name
-FRONTEND_URL=http://localhost:3000
+FRONTEND_URL=http://localhost:8000  // your frontend url
 ```
 
 
 Step 3: See the example (auth-passkey-storefront-example) to integrate with frontend (Medusa Starter Template).
 
+## Features
 
-## Community & Contributions
+Secure Authentication: Leverages passkeys for enhanced security.
 
-The community and core team are available in [GitHub Discussions](https://github.com/medusajs/medusa/discussions), where you can ask for support, discuss roadmap, and share ideas.
+OTP-based Verification: Ensures user identity with one-time passwords.
 
-Join our [Discord server](https://discord.com/invite/medusajs) to meet other community members.
+Seamless Integration: Easily integrates with Medusa’s authentication system.
+
+Customizable: Environment variables allow configuration for different use cases.
+
+Multi-Platform Support: Works with both email and mobile authentication.
+
+
+
+## Troubleshooting
+
+If you encounter issues while setting up the plugin, consider the following:
+
+Database Migration Issues: Run npx medusa db:migrate again and ensure your database is correctly set up.
+
+Environment Variables Not Loading: Check if .env is correctly configured and restart your Medusa server.
+
+Passkey Not Prompting: Ensure HTTPS is enabled if running on a production server.
+
+
+## Contribution
+
+We welcome contributions to improve this plugin! If you have suggestions or find issues, feel free to submit a pull request or open an issue in the repository.
