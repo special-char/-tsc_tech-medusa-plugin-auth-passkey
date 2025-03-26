@@ -59,7 +59,7 @@ or
 yarn add @tsc_tech/medusa-plugin-auth-passkey
 ```
 
-Additionally, install the smtp package:
+Additionally, install the auth-plugin package:
 
 
 ```
@@ -81,7 +81,7 @@ npx medusa db:migrate
 
 ## Configuration
 
-Step 1: Update Medusa Configuration Modify your medusa-config.ts to include the smtp provider:
+Step 1: Update Medusa Configuration Modify your medusa-config.ts to include the auth provider:
 
 ```
 import EmailPassAuthProvider from "@medusajs/medusa/auth-emailpass";
