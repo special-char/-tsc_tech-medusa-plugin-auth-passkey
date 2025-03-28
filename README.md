@@ -137,6 +137,8 @@ FRONTEND_URL=http://localhost:8000  // your frontend url
 
 Step 3: See the example (auth-passkey-storefront-example) to integrate with frontend (Medusa Starter Template).
 
+## Important: You must have a notification provider to send the otp to email or phone.
+
 ## Features
 
 Secure Authentication: Leverages passkeys for enhanced security.
