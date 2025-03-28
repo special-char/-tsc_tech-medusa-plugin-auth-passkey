@@ -73,12 +73,6 @@ yarn add @simplewebauthn/server -D
 yarn add @simplewebauthn/types
 ```
 
-Run migrations after installation
-
-```
-npx medusa db:migrate
-```
-
 ## Configuration
 
 Step 1: Update Medusa Configuration Modify your medusa-config.ts to include the auth provider:
@@ -123,6 +117,12 @@ modules: [
     },
     ],
 })
+```
+
+Run migrations after installation
+
+```
+npx medusa db:migrate
 ```
 
 
