@@ -24,6 +24,11 @@ const passkeyRoutesMiddlewares: MiddlewareRoute[] = [
     matcher: "/store/custom",
     method: "POST",
   },
+  {
+    matcher: "/store/passkey-list",
+    method: "GET",
+    middlewares: [authenticate("customer", ["session", "bearer"])],
+  },
 ];
 
 export default defineMiddlewares([]);

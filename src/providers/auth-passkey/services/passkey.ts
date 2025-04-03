@@ -175,7 +175,7 @@ export class PassKeyAuthService extends AbstractAuthModuleProvider {
     authIdentityService: AuthIdentityProviderService
   ): Promise<AuthenticationResponse> {
     const query = container.resolve("query");
-    const { email, expectedChallenge, rest } =
+    const { email, expectedChallenge, rest, passKeyName } =
       JSON.parse(JSON.stringify(userData.body)) ?? {};
     if (!email || !isString(email)) {
       return {
@@ -183,7 +183,10 @@ export class PassKeyAuthService extends AbstractAuthModuleProvider {
         error: "Email should be a string",
       };
     }
-
+    let passKey = passKeyName;
+    if (!passKey || !isString(passKey)) {
+      passKey = Date.now().toString();
+    }
     try {
       const { data: providerIdentity } = await query.graph({
         entity: "provider_identity",
@@ -192,16 +195,15 @@ export class PassKeyAuthService extends AbstractAuthModuleProvider {
           entity_id: email,
         },
       });
-
       if (providerIdentity && providerIdentity.length > 0) {
         const createAuthIdentityResponse = await this.createAuthIdentity(
           rest,
           expectedChallenge,
           this.config_,
+          passKey,
           undefined,
           providerIdentity[0]
         );
-
         return createAuthIdentityResponse;
       } else {
         const authIdentity = await authIdentityService.create({
@@ -211,10 +213,10 @@ export class PassKeyAuthService extends AbstractAuthModuleProvider {
           rest,
           expectedChallenge,
           this.config_,
+          passKey,
           authIdentity,
           undefined
         );
-
         return createAuthIdentityResponse;
       }
     } catch (error) {
@@ -224,11 +226,11 @@ export class PassKeyAuthService extends AbstractAuthModuleProvider {
       };
     }
   }
-
   protected createAuthIdentity = async (
     rest: any,
     expectedChallenge: string,
     config: any,
+    passKeyName: string,
     authIdentity?: AuthIdentityDTO,
     providerIdentity?: any
   ): Promise<AuthenticationResponse> => {
@@ -236,7 +238,7 @@ export class PassKeyAuthService extends AbstractAuthModuleProvider {
     const opts: VerifyRegistrationResponseOpts = {
       response: rest,
       expectedChallenge: expectedChallenge,
-      expectedOrigin: process.env.FRONTEND_URL || "http://localhost:3000",
+      expectedOrigin: process.env.FRONTEND_URL || "http://localhost:8000",
       expectedRPID: this.config_.rpID,
       requireUserVerification: false,
     };
@@ -255,6 +257,7 @@ export class PassKeyAuthService extends AbstractAuthModuleProvider {
             publicKey: Buffer.from(credential.publicKey).toString("base64"),
             counter: credential.counter,
             transports: rest.response.transports,
+            passKeyName: passKeyName,
           });
         const remoteLink = container.resolve("remoteLink");
 
@@ -265,7 +268,7 @@ export class PassKeyAuthService extends AbstractAuthModuleProvider {
                 ? authIdentity.id
                 : providerIdentity?.auth_identity?.id,
             },
-            ["passkeyCredentialsModuleService"]: {
+            [PASSKEY_CREDENTIALS_MODULE]: {
               passkey_credentials_id: passKeyCredentials.id,
             },
           },
