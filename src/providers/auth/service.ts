@@ -69,9 +69,8 @@ class AuthOtpProviderService extends AbstractAuthModuleProvider {
       };
     }
     const entityId = data.body?.phone
-      ? `${data.body.phone}@${
-          process.env.PROJECT_NAME || "thespecialcharacter"
-        }.com`
+      ? `${data.body.phone}@${process.env.PROJECT_NAME || "thespecialcharacter"
+      }.com`
       : `${data.body?.email}`;
 
     const otpCheck = await verifyOtp(entityId, data.body?.otp ?? "");
@@ -80,6 +79,26 @@ class AuthOtpProviderService extends AbstractAuthModuleProvider {
     } else {
       try {
         const query = container.resolve("query");
+        const { data: customerData } = await query.graph({
+          entity: "customer",
+          fields: ["*"],
+          filters: {
+            email: entityId as unknown as undefined,
+            has_account: false,
+          },
+        });
+        if (customerData.length > 0) {
+          const createdAuthIdentity = await authIdentityProviderService.create({
+            entity_id: data.body?.phone
+              ? `${data.body.phone}@${process.env.PROJECT_NAME || "thespecialcharacter"}.com`
+              : `${data.body?.email}`,
+            provider_metadata: {
+              provider: this.provider,
+            },
+          });
+          const otpModuleService: OtpModuleService = container.resolve(OTP_MODULE);
+          await otpModuleService.updateCustomer(customerData[0].id, createdAuthIdentity.id)
+        }
         const { data: providerIdentity } = await query.graph({
           entity: "provider_identity",
           fields: ["*", "auth_identity.*"],
@@ -113,9 +132,8 @@ class AuthOtpProviderService extends AbstractAuthModuleProvider {
         } else {
           const createdAuthIdentity = await authIdentityProviderService.create({
             entity_id: data.body?.phone
-              ? `${data.body.phone}@${
-                  process.env.PROJECT_NAME || "thespecialcharacter"
-                }.com`
+              ? `${data.body.phone}@${process.env.PROJECT_NAME || "thespecialcharacter"
+              }.com`
               : `${data.body?.email}`,
             provider_metadata: {
               provider: this.provider,
