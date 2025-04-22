@@ -61,7 +61,7 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
         process.env.PROJECT_NAME || "thespecialcharacter"
       }.com`,
       otp: encryptedOtp,
-      expires_at: Date.now() + 5 * 60 * 1000,
+      expires_at: new Date(Date.now() + 5 * 60 * 1000),
     });
     otpNotification = await sendOtpToPhone(phone, encryptedOtp);
   } else if (email) {
@@ -75,7 +75,7 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
     await otpModuleService.createOtps({
       phone: email,
       otp: encryptedOtp,
-      expires_at: Date.now() + 5 * 60 * 1000,
+      expires_at: new Date(Date.now() + 5 * 60 * 1000),
     });
 
     otpNotification = await sendOtpToEmail(email, encryptedOtp);

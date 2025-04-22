@@ -255,7 +255,7 @@ export class PassKeyAuthService extends AbstractAuthModuleProvider {
           await this.passkeyCredentialsModuleService_.createPasskeyCredentials({
             id: credential.id,
             publicKey: Buffer.from(credential.publicKey).toString("base64"),
-            counter: credential.counter,
+            counter: credential.counter.toString(),
             transports: rest.response.transports,
             passKeyName: passKeyName,
           });
